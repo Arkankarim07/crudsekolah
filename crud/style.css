@@ -1,6 +1,7 @@
+.card-text{
+  color: red;
+}
 
-
-img{
-  height: 200px;
-  object-fit: cover;
+.tex{
+  color: red;
 }
