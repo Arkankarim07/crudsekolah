@@ -31,6 +31,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#guru">Guru</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#guru">Murid</a>
+        </li>
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -46,25 +49,24 @@
 <div class="container mt-3">
   <div class=" row text-center justify-content-center ">
     <?php 
-    $sql = "SELECT * FROM t_kelas";
+    $sql = "SELECT * FROM t_jurusan";
     $row = $db->getALL($sql);
     foreach($row as $value) :
     ?>
     
     <div class="col-md-4 mb-5 ">
-      <div class="card " style="width: 300px;">
+      <div class="card">
         <img src="img/kelas/<?php echo $value['f_nama']; ?>.jpg " class="card-img-top" style="height: 200px;">
         <div class="card-body">
           <h5 class="card-title">
             <?php echo $value['f_nama']; ?>
           </h5>
 
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-success ">Go somewhere</a>
+          <p><?= $value['f_deksripsi'] ?></p>
         </div>
       </div>
     </div>
-      <?php endforeach; ?>
+    <?php endforeach; ?>
   </div>
 </div>
 <!-- card -->
@@ -78,15 +80,15 @@
     $row2 = $db->getALL($sql2);
     foreach($row2 as $guru) :
     ?>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
         <div class="col-md-4">
           <img src="img/guru/<?php echo $guru['f_nama']; ?>.jpg " class="img-fluid rounded-start" alt="...">
         </div>
         <div class="col-md-8">
           <div class="card-body">
             <h5 class="card-title"><?= $guru['f_nama']; ?></h5>
-            <p class="card-text">Guru SMKN 40</p>
+            <p >Guru SMKN 40</p>
              <p class="card-text"><small class="text-body-secondary">Jalan Nanas 2 RT. 09 RW 010, Utan Kayu Utara, Matraman, Jakarta Timur, DKI Jakarta, Indonesia</small></p>
           </div>
         </div>
@@ -96,6 +98,52 @@
   </div>
 </div>
 <!-- card guru -->
+
+<!-- table siswa -->
+<div class="container  w-75  ">
+<h1 class=" text-center mt-5 ">Guru SMKN 40</h1>
+  <table class="table mt-5">
+    <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Nama</th>
+      <th scope="col">Kelas</th>
+      <th scope="col">Jurusan</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <?php
+      $i = 1;
+      $sql = "SELECT t_siswa.f_nama,
+                     t_kelas.f_nama AS f_kelas,
+                     t_jurusan.f_nama AS f_jurusan 
+                     FROM t_siswa
+                      INNER JOIN t_kelas
+                        ON t_siswa . f_idkelas = t_kelas.f_idkelas
+                      INNER JOIN t_jurusan
+                        ON t_siswa . f_idjurusan = t_jurusan.f_idjurusan
+              ORDER BY t_jurusan . f_idjurusan, t_kelas . f_idkelas, t_siswa . f_idsiswa;";
+      $row = $db->getALL($sql);
+      foreach($row as $murid) :
+    ?>
+    <tr>
+      <th scope="row"><?= $i++ ?></th>
+
+      <td>
+        <?php echo $murid['f_nama']; ?>
+      </td>
+      <td>
+        <?php echo $murid['f_kelas']; ?>
+      </td>
+      <td>
+        <?php echo $murid['f_jurusan']; ?>
+      </td>
+    </tr>
+    <?php endforeach; ?>
+  </tbody>
+</table>
+</div>
+<!-- table siswa -->
 
 <!-- start footer -->
 <footer>
